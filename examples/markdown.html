@@ -19,21 +19,97 @@
 			<div class="slides">
 
                 <!-- Use external markdown resource, separate slides by three newlines; vertical slides by two newlines -->
-                <section data-markdown="markdown.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+                <section data-markdown="./markdown.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
 
                 <!-- Slides are separated by three dashes (the default) -->
-                <section data-markdown>
-                    <script type="text/template">
-                        ## Demo 1
-                        Slide 1
-                        ---
-                        ## Demo 1
-                        Slide 2
-                        ---
-                        ## Demo 1
-                        Slide 3
+                <section class="slide" >
+                    <div class="container">
+                        <h3>服务器端渲染 (SSR) 流程</h3>
+                        <canvas id="ssrCanvas" width="500" height="500"></canvas>
+                        <div id="explanation"></div>
+                    </div>
+                
+                    <script>
+                        const canvas = document.getElementById('ssrCanvas');
+                        const ctx = canvas.getContext('2d');
+                        const explanation = document.getElementById('explanation');
+                
+                        const steps = [
+                            { text: "1. 用户请求页面", detail: "用户在浏览器中输入URL或点击链接，发起页面请求。" },
+                            { text: "2. 服务器接收请求", detail: "服务器接收到来自客户端的HTTP请求。" },
+                            { text: "3. 服务器生成HTML", detail: "服务器运行应用代码，生成完整的HTML内容，包括数据和初始状态。" },
+                            { text: "4. 发送HTML到客户端", detail: "服务器将生成的HTML作为HTTP响应发送回客户端。" },
+                            { text: "5. 浏览器渲染HTML", detail: "浏览器接收HTML并立即开始渲染页面内容，用户可以看到完整的页面。" },
+                            { text: "6. JavaScript激活页面", detail: "浏览器下载并执行JavaScript，使页面变得可交互，完成'激活'过程。" }
+                        ];
+                
+                        let currentStep = 0;
+                        let animationProgress = 0;
+                
+                        function drawBox(x, y, width, height, text, progress) {
+                            ctx.fillStyle = `rgba(52, 152, 219, ${progress})`;
+                            ctx.fillRect(x, y, width, height);
+                            ctx.strokeStyle = 'white';
+                            ctx.strokeRect(x, y, width, height);
+                            ctx.fillStyle = 'white';
+                            ctx.font = '14px Arial';
+                            ctx.fillText(text, x + 10, y + 25);
+                        }
+                
+                        function drawArrow(fromX, fromY, toX, toY, progress) {
+                            const angle = Math.atan2(toY - fromY, toX - fromX);
+                            const length = Math.sqrt((toX - fromX) ** 2 + (toY - fromY) ** 2) * progress;
+                
+                            ctx.beginPath();
+                            ctx.moveTo(fromX, fromY);
+                            ctx.lineTo(fromX + length * Math.cos(angle), fromY + length * Math.sin(angle));
+                            ctx.strokeStyle = '#34495e';
+                            ctx.lineWidth = 2;
+                            ctx.stroke();
+                        }
+                
+                        function draw() {
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                            const boxWidth = 200;
+                            const boxHeight = 50;
+                            const startX = 150;
+                            const startY = 50;
+                            const verticalGap = 80;
+                
+                            for (let i = 0; i < steps.length; i++) {
+                                const x = startX;
+                                const y = startY + i * verticalGap;
+                                const progress = i < currentStep ? 1 : (i === currentStep ? animationProgress : 0);
+                
+                                drawBox(x, y, boxWidth, boxHeight, steps[i].text, progress);
+                
+                                if (i < steps.length - 1) {
+                                    drawArrow(x + boxWidth / 2, y + boxHeight, x + boxWidth / 2, y + verticalGap, progress);
+                                }
+                            }
+                
+                            explanation.textContent = currentStep < steps.length ? steps[currentStep].detail : '';
+                            explanation.style.fontSize = '30px'; 
+                        }
+                
+                        function animate() {
+                            animationProgress += 0.01;
+                            if (animationProgress >= 1) {
+                                animationProgress = 0;
+                                currentStep++;
+                                if (currentStep >= steps.length) {
+                                    currentStep = 0;
+                                }
+                            }
+                            draw();
+                            requestAnimationFrame(animate);
+                        }
+                
+                        animate();
                     </script>
                 </section>
+                
 
                 <!-- Slides are separated by regexp matching newline + three dashes + newline, vertical slides identical but two dashes -->
                 <section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
@@ -144,18 +220,34 @@
         <script src="../plugin/notes/notes.js"></script>
         <script src="../plugin/math/math.js"></script>
 
-		<script>
+		<script> 
 
 			Reveal.initialize({
 				controls: true,
 				progress: true,
 				history: true,
 				center: true,
-
+                markdown: {
+                    smartypants: true,
+                    gfm: true,
+                    breaks: true,
+                    highlight: true,
+                    sanitize: false  // 允许 HTML 标签和脚本执行
+                },
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
 			});
 
+            Reveal.addEventListener('ready', function(event) {
+                // 查找包含 Canvas 的幻灯片并开始动画
+                const canvasSlide = document.querySelector('section:has(#ssrCanvas)');
+                if (canvasSlide) {
+                    animate();
+                }
+            });
+
 		</script>
+
+        
 
 	</body>
 </html>

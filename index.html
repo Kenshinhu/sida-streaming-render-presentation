@@ -1,40 +1,80 @@
 <!doctype html>
 <html lang="en">
+
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>reveal.js - Markdown Example</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+        <link rel="stylesheet" href="../plugin/highlight/monokai.css">
 	</head>
+
 	<body>
+
 		<div class="reveal">
+
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
+
+                <!-- Use external markdown resource, separate slides by three newlines; vertical slides by two newlines -->
+                <section data-markdown="./markdown.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+
+				<section data-markdown="./nextjs-ssr.md" data-separator="^\n\n\n" data-separator-vertical="^\n\n"></section>
+                
+                <section data-markdown>
+					<textarea data-template>
+						## 引用内容
+						- 构建时预渲染：网页首帧优化实践
+							https://tech.meituan.com/2018/11/15/first-contentful-paint-practice.html	
+						- 淺談 Jamstack 架構
+							https://simonallen.coderbridge.io/2021/07/23/what-is-jamstack/
+					  </textarea>
+                </section>
+            </div>
 		</div>
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+		<script src="../dist/reveal.js"></script>
+        <script src="../plugin/markdown/markdown.js"></script>
+        <script src="../plugin/highlight/highlight.js"></script>
+        <script src="../plugin/notes/notes.js"></script>
+        <script src="../plugin/math/math.js"></script>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+		<script> 
+
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+                markdown: {
+                    smartypants: true,
+                    gfm: true,
+                    breaks: true,
+                    highlight: true,
+                    sanitize: false  // 允许 HTML 标签和脚本执行
+                },
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
 			});
+
+            Reveal.addEventListener('ready', function(event) {
+                // 查找包含 Canvas 的幻灯片并开始动画
+                const canvasSlide = document.querySelector('section:has(#ssrCanvas)');
+                if (canvasSlide) {
+                    animate();
+                }
+            });
+
 		</script>
+
+		<style>
+			.reveal h1, .reveal h2 { color: #58a6ff; }
+			.reveal li { margin-bottom: 10px; }
+			.highlight { color: #ff9100; }
+		</style>
+
+        
+
 	</body>
 </html>
