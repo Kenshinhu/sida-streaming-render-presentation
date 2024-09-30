@@ -1,5 +1,5 @@
 <!-- .slide: data-background="#000000" -->
-# 浏览器内核、前端发展与渲染概述
+# 前端开发与浏览器渲染技术演进
 
 
 ## 前端开发简史
@@ -39,7 +39,7 @@
 
 #### 渐进式Web应用（PWA），WebAssembly等新技术
    - PWA概念在2015年由Google提出,近年来逐渐普及
-   - WebAssembly在2017年成为W3C推荐标准
+   - WebAssembly在2017成为W3C推荐标准
    - 2019年后,Jamstack(JavaScript、API 和 Markup的缩写)架构开始流行
    - 服务器端渲染(SSR)和静态站点生成(SSG)技术的复兴
    - 2020年后,微前端架构开始受到关注
@@ -74,7 +74,7 @@
 - <font color="#ff9100">**FP (First Paint):**</font> 浏览器渲染任何在视觉上不同于导航前屏幕内容之内容的时间点
 - <font color="#ff9100">**FCP (First Contentful Paint):**</font> 浏览器渲染来自 DOM 第一位内容的时间点，该内容可能是文本、图像、SVG 等
 - <font color="#ff9100">**LCP (Largest Contentful Paint):**</font> 可视区域内最大的内容元素呈现到屏幕上的时间
-- <font color="#ff9100">**TTI (Time to Interactive):**</font> 页面变得完全可交互所需的时间
+- <font color="#ff9100">**TTI (Time to Interactive):**</font> 页面变得完全可交互所���的时间
 
 
 ## 渲染过程详解
