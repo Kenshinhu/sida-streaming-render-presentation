@@ -11,6 +11,10 @@
    - JavaScript语言诞生,为网页添加交互性
 
 
+   ![Mosaic浏览器界面](https://www.researchgate.net/profile/Erik-Ranschaert/publication/304300437/figure/fig1/AS:668993757118480@1536511949710/Screenshot-of-the-Mosaic-browser-displaying-the-NCSAs-home-page-The-browser-was.png)
+   
+
+
 #### CSS的广泛应用，动态网页技术（如Flash）兴起
    - 2000年, XHTML 1.0成为W3C推荐标准
    - 2002年, Firefox浏览器的前身Phoenix发布
@@ -74,7 +78,7 @@
 - <font color="#ff9100">**FP (First Paint):**</font> 浏览器渲染任何在视觉上不同于导航前屏幕内容之内容的时间点
 - <font color="#ff9100">**FCP (First Contentful Paint):**</font> 浏览器渲染来自 DOM 第一位内容的时间点，该内容可能是文本、图像、SVG 等
 - <font color="#ff9100">**LCP (Largest Contentful Paint):**</font> 可视区域内最大的内容元素呈现到屏幕上的时间
-- <font color="#ff9100">**TTI (Time to Interactive):**</font> 页面变得完全可交互所���的时间
+- <font color="#ff9100">**TTI (Time to Interactive):**</font> 页面变得完全可交互所得的时间
 
 
 ## 渲染过程详解
